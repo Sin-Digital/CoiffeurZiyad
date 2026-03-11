@@ -1,0 +1,1284 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Coiffeur Ziyad – Adliswil</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,800;1,700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+<style>
+/* ─── Reset & Base ─── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; font-size: 16px; }
+body { font-family: 'DM Sans', sans-serif; background: #fff; color: #0A0A0A; overflow-x: hidden; }
+img { display: block; max-width: 100%; }
+button, a { cursor: pointer; text-decoration: none; }
+button { border: none; background: none; }
+ul { list-style: none; }
+input, select, textarea { font-family: inherit; }
+
+/* ─── CSS Variables ─── */
+:root {
+  --black: #0A0A0A;
+  --white: #fff;
+  --gray-light: #F5F5F5;
+  --gray-border: #E8E4DF;
+  --gray-text: #777;
+  --serif: 'Playfair Display', serif;
+  --sans: 'DM Sans', sans-serif;
+}
+
+/* ─── Animations ─── */
+@keyframes fadeUp    { from { opacity:0; transform:translateY(40px) } to { opacity:1; transform:translateY(0) } }
+@keyframes fadeLeft  { from { opacity:0; transform:translateX(-50px) } to { opacity:1; transform:translateX(0) } }
+@keyframes fadeRight { from { opacity:0; transform:translateX(50px) } to { opacity:1; transform:translateX(0) } }
+@keyframes fadeIn    { from { opacity:0 } to { opacity:1 } }
+@keyframes slideUp   { from { opacity:0; transform:translateY(120px) } to { opacity:1; transform:translateY(0) } }
+@keyframes bounce    { 0%,100%{transform:translateY(0)} 50%{transform:translateY(7px)} }
+@keyframes scaleIn   { from { transform:scale(0) } to { transform:scale(1) } }
+
+.anim-fadeUp    { opacity:0; }
+.anim-fadeLeft  { opacity:0; }
+.anim-fadeRight { opacity:0; }
+.anim-fadeIn    { opacity:0; }
+
+.in.anim-fadeUp    { animation: fadeUp    0.8s ease both; }
+.in.anim-fadeLeft  { animation: fadeLeft  0.9s cubic-bezier(.22,1,.36,1) both; }
+.in.anim-fadeRight { animation: fadeRight 0.9s cubic-bezier(.22,1,.36,1) both; }
+.in.anim-fadeIn    { animation: fadeIn    0.8s ease both; }
+
+.d1 { animation-delay: 0.1s }
+.d2 { animation-delay: 0.2s }
+.d3 { animation-delay: 0.3s }
+.d4 { animation-delay: 0.4s }
+.d5 { animation-delay: 0.5s }
+.d6 { animation-delay: 0.6s }
+
+/* ─── Navbar ─── */
+#navbar {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+  transition: background .4s, backdrop-filter .4s, border-color .4s;
+  border-bottom: 1px solid transparent;
+}
+#navbar.scrolled {
+  background: rgba(255,255,255,0.97);
+  backdrop-filter: blur(20px);
+  border-color: rgba(0,0,0,0.06);
+}
+.nav-inner {
+  max-width: 1280px; margin: 0 auto;
+  padding: 0 24px; height: 80px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.nav-logo { display:flex; align-items:center; gap:12px; }
+.nav-logo-icon {
+  width: 36px; height: 36px; border-radius: 50%;
+  display:flex; align-items:center; justify-content:center;
+  background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.4);
+  transition: background .4s;
+  flex-shrink: 0;
+}
+#navbar.scrolled .nav-logo-icon { background: var(--black); border-color: transparent; }
+.nav-logo-icon svg { color: #fff; transform: rotate(45deg); }
+.nav-logo-text {
+  font-size: 11px; letter-spacing: .2em; text-transform: uppercase; font-weight: 500;
+  color: #fff; transition: color .4s;
+}
+#navbar.scrolled .nav-logo-text { color: var(--black); }
+.nav-links { display:none; align-items:center; gap:32px; }
+@media(min-width:768px){ .nav-links { display:flex; } }
+.nav-link {
+  font-size: 11px; letter-spacing: .15em; text-transform: uppercase; font-weight: 500;
+  color: #fff; transition: opacity .2s, color .4s;
+}
+.nav-link:hover { opacity:.6; }
+#navbar.scrolled .nav-link { color: var(--black); }
+.nav-cta {
+  padding: 10px 20px; font-size: 11px; letter-spacing: .15em;
+  text-transform: uppercase; font-weight: 500; color: #fff;
+  background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.5);
+  backdrop-filter: blur(10px); transition: background .3s, color .3s;
+}
+#navbar.scrolled .nav-cta { background: var(--black); border-color: transparent; color:#fff; }
+.nav-hamburger { display:flex; color:#fff; padding:8px; transition:color .4s; }
+@media(min-width:768px){ .nav-hamburger { display:none; } }
+#navbar.scrolled .nav-hamburger { color: var(--black); }
+
+/* ─── Mobile Menu ─── */
+#mobile-menu {
+  position: fixed; inset:0; z-index: 999;
+  background: var(--black); display:flex; align-items:center; justify-content:center;
+  opacity:0; pointer-events:none; transition: opacity .4s;
+}
+#mobile-menu.open { opacity:1; pointer-events:all; }
+.mobile-menu-links { display:flex; flex-direction:column; align-items:center; gap:32px; }
+.mobile-menu-link {
+  font-family: var(--serif); font-size: 28px; letter-spacing:.1em; text-transform:uppercase;
+  color: #fff; transition: opacity .2s;
+}
+.mobile-menu-link:hover { opacity:.6; }
+.mobile-cta {
+  margin-top:16px; padding: 16px 32px; font-size:13px; letter-spacing:.2em;
+  text-transform:uppercase; font-weight:500; color:#fff;
+  border: 1px solid rgba(255,255,255,0.6); background: none;
+  transition: background .3s, color .3s;
+}
+.mobile-cta:hover { background:#fff; color:#000; }
+
+/* ─── Hero ─── */
+#hero {
+  position:relative; width:100%; overflow:hidden;
+  height: 100dvh; min-height: 600px;
+}
+.hero-bg { position:absolute; inset:0; }
+.hero-bg img { width:100%; height:100%; object-fit:cover; object-position:center 30%; }
+.hero-overlay {
+  position:absolute; inset:0;
+  background: linear-gradient(135deg, rgba(0,0,0,.78) 0%, rgba(0,0,0,.45) 50%, rgba(0,0,0,.3) 100%);
+}
+.hero-grain {
+  position:absolute; inset:0; opacity:.2;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.4'/%3E%3C/svg%3E");
+}
+.hero-rating {
+  position:absolute; top:110px; right:24px;
+  display:flex; align-items:center; gap:8px; padding:10px 16px;
+  background: rgba(255,255,255,.1); backdrop-filter:blur(16px);
+  border: 1px solid rgba(255,255,255,.2);
+  animation: fadeUp .8s .2s both;
+}
+@media(min-width:1024px){ .hero-rating { right:80px; } }
+.hero-rating-text {
+  color: #fff; font-size: 11px; letter-spacing:.15em; font-weight:500;
+}
+.hero-content {
+  position:relative; z-index:10; height:100%;
+  display:flex; flex-direction:column; justify-content:flex-end;
+  padding: 0 24px 80px;
+}
+@media(min-width:1024px){ .hero-content { padding: 0 80px 80px; } }
+.hero-location {
+  font-size: 11px; letter-spacing:.25em; text-transform:uppercase; font-weight:400;
+  color: rgba(255,255,255,.6); margin-bottom: 24px;
+  animation: fadeLeft .9s .4s both;
+}
+.hero-h1-wrap { overflow:hidden; }
+.hero-title-1 {
+  font-family: var(--serif); font-weight:800; letter-spacing:-.02em; line-height:1;
+  font-size: clamp(52px, 10vw, 140px); color:#fff; margin-bottom:8px;
+  animation: slideUp 1s .5s cubic-bezier(.22,1,.36,1) both;
+}
+.hero-title-2 {
+  font-family: var(--serif); font-weight:800; letter-spacing:-.02em; line-height:1;
+  font-size: clamp(52px, 10vw, 140px);
+  color: transparent; -webkit-text-stroke: 2px rgba(255,255,255,.8);
+  margin-bottom: 32px;
+  animation: slideUp 1s .65s cubic-bezier(.22,1,.36,1) both;
+}
+.hero-sub-row { display:flex; flex-direction:column; gap:24px; }
+@media(min-width:640px){ .hero-sub-row { flex-direction:row; align-items:center; } }
+.hero-sub {
+  font-size: 14px; font-weight:300; line-height:1.7; max-width: 300px;
+  color: rgba(255,255,255,.65);
+  animation: fadeIn .8s 1s both;
+}
+.hero-btns {
+  display:flex; align-items:center; gap:16px;
+  animation: fadeUp .8s 1.1s both;
+}
+.btn-primary {
+  padding: 16px 32px; font-size: 11px; letter-spacing:.2em;
+  text-transform:uppercase; font-weight:600; color:var(--black);
+  background: #fff; transition: transform .3s;
+}
+.btn-primary:hover { transform:scale(1.05); }
+.btn-secondary {
+  padding: 16px 32px; font-size: 11px; letter-spacing:.2em;
+  text-transform:uppercase; font-weight:500; color:#fff;
+  border: 1px solid rgba(255,255,255,.4);
+  transition: background .3s;
+}
+.btn-secondary:hover { background: rgba(255,255,255,.1); }
+.hero-scroll {
+  position:absolute; bottom:32px; left:50%; transform:translateX(-50%);
+  display:flex; flex-direction:column; align-items:center; gap:8px;
+  color: rgba(255,255,255,.5); z-index:10;
+  animation: fadeIn 1s 1.5s both;
+}
+.hero-scroll span {
+  font-size:10px; letter-spacing:.2em; text-transform:uppercase;
+}
+.hero-scroll svg { animation: bounce 1.5s ease-in-out infinite; }
+
+/* ─── Section Shared ─── */
+.section-label {
+  font-size: 11px; letter-spacing:.25em; text-transform:uppercase; font-weight:500;
+  color: #888; margin-bottom: 20px;
+}
+.section-title {
+  font-family: var(--serif); font-weight:700; line-height:1.15;
+  font-size: clamp(32px, 5vw, 56px); color:var(--black);
+}
+.section-title em { font-style:italic; color:#555; }
+.section-desc {
+  font-size:14px; font-weight:300; line-height:1.8; color:var(--gray-text);
+}
+.divider { width:40px; height:1px; background:#888; display:inline-block; }
+
+/* ─── Stats Bar ─── */
+.stats-bar {
+  background: var(--black); padding: 24px;
+}
+.stats-inner {
+  max-width:1280px; margin:0 auto;
+  display:flex; flex-wrap:wrap; justify-content:space-around; gap:24px;
+}
+.stat { text-align:center; }
+.stat-num {
+  font-family: var(--serif); font-weight:700; color:#fff;
+  font-size: clamp(24px, 4vw, 36px);
+}
+.stat-label {
+  font-size:10px; letter-spacing:.2em; text-transform:uppercase;
+  color: rgba(255,255,255,.45); margin-top:4px; font-weight:400;
+}
+
+/* ─── About ─── */
+#about { background:#fff; overflow:hidden; }
+.about-main {
+  max-width:1280px; margin:0 auto;
+  padding: 80px 24px;
+  display:grid; grid-template-columns:1fr; gap:64px; align-items:center;
+}
+@media(min-width:1024px){
+  .about-main { grid-template-columns:1fr 1fr; gap:96px; padding:128px 48px; }
+}
+.about-address {
+  display:flex; align-items:center; gap:16px; margin-top:40px;
+}
+.about-address span {
+  font-size:11px; letter-spacing:.2em; text-transform:uppercase; font-weight:500; color:#888;
+}
+.about-imgs { position:relative; }
+.about-img-main { width:100%; height:420px; object-fit:cover; filter:brightness(.95); }
+.about-img-tools {
+  position:absolute; bottom:-32px; left:-32px; width:180px; height:200px;
+  object-fit:cover; border:4px solid #fff; box-shadow:0 20px 60px rgba(0,0,0,.15);
+  display:none;
+}
+@media(min-width:1024px){ .about-img-tools { display:block; } }
+.about-accent {
+  position:absolute; top:-16px; right:-16px; width:96px; height:96px;
+  border:2px solid #D0D0D0; z-index:-1; display:none;
+}
+@media(min-width:1024px){ .about-accent { display:block; } }
+
+/* Services Row */
+.services-row { background:var(--gray-light); padding:80px 24px; }
+.services-inner { max-width:1280px; margin:0 auto; }
+.services-grid {
+  display:grid; grid-template-columns:1fr; gap:48px; margin-top:64px;
+}
+@media(min-width:640px){ .services-grid { grid-template-columns:1fr 1fr; } }
+@media(min-width:1024px){ .services-grid { grid-template-columns:repeat(4,1fr); } }
+.service-item { text-align:center; }
+.service-icon {
+  width:52px; height:52px; border:1px solid #E0E0E0; background:#fff;
+  display:flex; align-items:center; justify-content:center;
+  margin:0 auto 20px; color:var(--black);
+}
+.service-icon svg { stroke-width:1.5; }
+.service-title {
+  font-family:var(--serif); font-size:18px; font-weight:600;
+  color:var(--black); margin-bottom:12px;
+}
+.service-desc { font-size:13px; line-height:1.8; font-weight:300; color:#777; }
+
+/* ─── Pricing ─── */
+#pricing {
+  background:#fff; padding:96px 24px;
+  overflow:hidden;
+}
+.pricing-inner { max-width:1280px; margin:0 auto; }
+.pricing-header {
+  display:flex; flex-direction:column; justify-content:space-between;
+  align-items:flex-start; gap:24px; margin-bottom:80px;
+}
+@media(min-width:1024px){ .pricing-header { flex-direction:row; align-items:flex-end; } }
+.pricing-grid {
+  display:grid; grid-template-columns:1fr; gap:64px;
+}
+@media(min-width:1024px){ .pricing-grid { grid-template-columns:repeat(3,1fr); gap:32px; } }
+.pricing-cat-label {
+  display:flex; align-items:center; gap:16px; margin-bottom:32px;
+}
+.pricing-cat-line { width:28px; height:1px; background:#888; }
+.pricing-cat-text {
+  font-size:10px; letter-spacing:.2em; text-transform:uppercase; font-weight:500; color:#888;
+}
+.pricing-item {
+  display:flex; align-items:flex-start; justify-content:space-between;
+  padding: 20px 0; border-bottom:1px solid #F0EDE8;
+  transition: padding-left .2s;
+}
+.pricing-item:hover { padding-left:8px; }
+.pricing-item-name { font-size:15px; font-weight:500; color:var(--black); margin-bottom:4px; }
+.pricing-item-desc { font-size:12px; font-weight:300; color:#999; }
+.pricing-item-price {
+  font-family:var(--serif); font-size:16px; font-weight:600;
+  color:var(--black); white-space:nowrap; flex-shrink:0;
+}
+.pricing-footer {
+  display:flex; flex-wrap:wrap; align-items:center; gap:24px;
+  margin-top:80px; padding-top:40px; border-top:1px solid #F0EDE8;
+}
+.pricing-check { display:flex; align-items:center; gap:8px; }
+.pricing-check svg { color:#888; }
+.pricing-check span { font-size:13px; color:#555; }
+
+/* ─── Gallery ─── */
+#gallery { background:var(--gray-light); padding:96px 24px; overflow:hidden; }
+.gallery-inner { max-width:1280px; margin:0 auto; }
+.gallery-header {
+  display:flex; flex-direction:column; justify-content:space-between;
+  align-items:flex-start; gap:24px; margin-bottom:64px;
+}
+@media(min-width:1024px){ .gallery-header { flex-direction:row; align-items:flex-end; } }
+.gallery-grid {
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  grid-auto-rows: 310px;
+  gap:12px;
+}
+@media(min-width:1024px){
+  .gallery-grid { grid-template-columns:repeat(3,1fr); gap:16px; }
+}
+.gallery-item {
+  position:relative; overflow:hidden; cursor:pointer;
+}
+.gallery-item.row-span-2 { grid-row: span 2; }
+.gallery-item.col-span-2 { grid-column: span 2; }
+.gallery-item img {
+  width:100%; height:100%; object-fit:cover;
+  transition: transform .7s ease;
+}
+.gallery-item:hover img { transform:scale(1.1); }
+.gallery-overlay {
+  position:absolute; inset:0; display:flex; align-items:flex-end; padding:24px;
+  background: linear-gradient(0deg, rgba(0,0,0,.65) 0%, transparent 60%);
+  opacity:0; transition:opacity .3s;
+}
+.gallery-item:hover .gallery-overlay { opacity:1; }
+.gallery-label {
+  font-size:12px; letter-spacing:.15em; text-transform:uppercase;
+  font-weight:500; color:#fff;
+}
+
+/* ─── Reviews ─── */
+#reviews { background:#fff; padding:96px 24px; overflow:hidden; }
+.reviews-inner { max-width:1280px; margin:0 auto; }
+.reviews-header {
+  display:flex; flex-direction:column; justify-content:space-between;
+  align-items:flex-start; gap:24px; margin-bottom:64px;
+}
+@media(min-width:1024px){ .reviews-header { flex-direction:row; align-items:flex-end; } }
+.reviews-summary {
+  display:flex; align-items:center; gap:16px; padding:20px 24px;
+  background:var(--gray-light); border:1px solid #E8E8E8;
+  flex-shrink:0;
+}
+.reviews-score {
+  font-family:var(--serif); font-size:40px; font-weight:800; color:var(--black); line-height:1;
+}
+.stars { display:flex; align-items:center; gap:2px; margin:6px 0 4px; }
+.star-icon { color:#F5C842; }
+.reviews-count { font-size:11px; color:#999; font-weight:300; }
+.reviews-divider { width:1px; height:60px; background:#E8E4DF; margin:0 8px; }
+.reviews-verified {
+  font-size:10px; letter-spacing:.15em; text-transform:uppercase;
+  font-weight:500; color:#888; max-width:80px; line-height:1.6;
+}
+.reviews-grid {
+  display:grid; grid-template-columns:1fr; gap:24px;
+}
+@media(min-width:768px){ .reviews-grid { grid-template-columns:1fr 1fr; } }
+@media(min-width:1024px){ .reviews-grid { grid-template-columns:repeat(3,1fr); } }
+.review-card {
+  background:var(--gray-light); border:1px solid #E8E8E8;
+  padding:32px; display:flex; flex-direction:column;
+}
+.review-text {
+  font-size:14px; line-height:1.9; font-weight:300; color:#444;
+  margin-top:20px; margin-bottom:32px; flex:1;
+}
+.review-author { display:flex; align-items:center; gap:12px; }
+.review-avatar {
+  width:38px; height:38px; border-radius:50%; background:var(--black);
+  display:flex; align-items:center; justify-content:center;
+  color:#fff; font-size:11px; font-weight:600; letter-spacing:.05em; flex-shrink:0;
+}
+.review-name { font-size:14px; font-weight:500; color:var(--black); }
+.review-date { font-size:11px; color:#999; font-weight:300; }
+.reviews-cta { display:flex; justify-content:center; margin-top:56px; }
+.btn-outline {
+  padding: 16px 32px; font-size:11px; letter-spacing:.2em;
+  text-transform:uppercase; font-weight:500; color:var(--black);
+  border:1px solid var(--black); transition:background .3s, color .3s;
+  display:inline-block;
+}
+.btn-outline:hover { background:var(--black); color:#fff; }
+
+/* ─── Atmosphere ─── */
+#atmosphere { overflow:hidden; }
+.atm-wrap {
+  position:relative; width:100%;
+  height: clamp(500px, 70vh, 800px);
+}
+.atm-img { width:100%; height:100%; object-fit:cover; object-position:center 40%; }
+.atm-overlay {
+  position:absolute; inset:0;
+  background:linear-gradient(90deg, rgba(0,0,0,.85) 0%, rgba(0,0,0,.4) 60%, rgba(0,0,0,.1) 100%);
+}
+.atm-content {
+  position:absolute; inset:0; display:flex; align-items:center;
+  padding:0 32px;
+}
+@media(min-width:1024px){ .atm-content { padding:0 80px; } }
+.atm-inner { max-width:580px; }
+.atm-title { color:#fff; margin-bottom:24px; }
+.atm-title em { font-style:italic; color:#B8C4CA; }
+.atm-text {
+  color:rgba(255,255,255,.7); line-height:1.9; font-weight:300; font-size:15px;
+  margin-bottom:40px;
+}
+.atm-info { display:flex; flex-direction:column; gap:12px; }
+.atm-info-row { display:flex; align-items:center; gap:12px; color:rgba(255,255,255,.8); }
+.atm-info-row svg { color:rgba(255,255,255,.6); flex-shrink:0; }
+.atm-info-row span { font-size:13px; font-weight:300; }
+
+/* ─── Booking ─── */
+#booking { background:var(--gray-light); padding:96px 24px; overflow:hidden; }
+.booking-inner { max-width:1000px; margin:0 auto; }
+.booking-header { text-align:center; margin-bottom:64px; }
+.booking-header p { margin-top:20px; font-size:14px; line-height:1.8; font-weight:300; color:var(--gray-text); max-width:400px; margin-left:auto; margin-right:auto; }
+.booking-form {
+  background:#fff; border:1px solid var(--gray-border);
+  padding:32px;
+}
+@media(min-width:1024px){ .booking-form { padding:56px; } }
+.form-row { display:grid; grid-template-columns:1fr; gap:24px; margin-bottom:24px; }
+@media(min-width:640px){ .form-row { grid-template-columns:1fr 1fr; } }
+.form-group { margin-bottom:24px; }
+.form-label {
+  display:block; font-size:10px; letter-spacing:.15em; text-transform:uppercase;
+  font-weight:500; color:#888; margin-bottom:8px;
+}
+.form-input, .form-select, .form-textarea {
+  width:100%; padding:14px 16px; font-size:14px; font-weight:300;
+  color:var(--black); background:#FAFAF8;
+  border:1px solid var(--gray-border); outline:none;
+  transition:border-color .2s; font-family:var(--sans);
+}
+.form-input:focus, .form-select:focus, .form-textarea:focus {
+  border-color:#888;
+}
+.form-select {
+  appearance:none; cursor:pointer;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23888' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+  background-repeat:no-repeat; background-position:right 16px center; padding-right:40px;
+}
+.form-textarea { resize:vertical; min-height:100px; }
+.form-error { font-size:11px; color:#E05555; margin-top:5px; }
+.form-input.error, .form-select.error { border-color:#E05555; }
+.form-footer { display:flex; align-items:center; gap:16px; flex-wrap:wrap; }
+.btn-submit {
+  padding:16px 40px; font-size:13px; letter-spacing:.2em; text-transform:uppercase;
+  font-weight:500; color:#fff; background:var(--black);
+  border:none; cursor:pointer; transition:opacity .3s, transform .3s;
+}
+.btn-submit:hover { opacity:.9; transform:scale(1.02); }
+.form-hint { font-size:12px; color:#aaa; font-weight:300; }
+.booking-success {
+  display:none; flex-direction:column; align-items:center;
+  text-align:center; padding:80px 0;
+}
+.booking-success.show { display:flex; }
+.success-icon { animation: scaleIn .5s cubic-bezier(.2,1.5,.5,1) both; color:#555; }
+.success-title {
+  font-family:var(--serif); font-size:28px; font-weight:700;
+  color:var(--black); margin-top:32px; margin-bottom:12px;
+}
+.success-text { font-size:15px; color:#666; font-weight:300; max-width:380px; line-height:1.8; }
+
+/* ─── Map ─── */
+#map { height:420px; }
+#map iframe { width:100%; height:100%; display:block; border:0; filter:grayscale(15%) contrast(1.05); }
+
+/* ─── Footer ─── */
+footer { background:var(--black); }
+.footer-inner {
+  max-width:1280px; margin:0 auto; padding:80px 24px;
+}
+.footer-grid {
+  display:grid; grid-template-columns:1fr; gap:48px;
+}
+@media(min-width:768px){ .footer-grid { grid-template-columns:1fr 1fr; } }
+@media(min-width:1024px){ .footer-grid { grid-template-columns:1.5fr 1fr 1fr 1fr; } }
+.footer-brand-logo { display:flex; align-items:center; gap:12px; margin-bottom:24px; }
+.footer-logo-icon {
+  width:36px; height:36px; border-radius:50%;
+  background:rgba(255,255,255,.1); border:1px solid rgba(255,255,255,.15);
+  display:flex; align-items:center; justify-content:center;
+}
+.footer-logo-icon svg { color:#fff; transform:rotate(45deg); }
+.footer-logo-text {
+  font-size:11px; letter-spacing:.2em; text-transform:uppercase;
+  font-weight:500; color:#fff;
+}
+.footer-desc { font-size:13px; line-height:1.9; font-weight:300; color:rgba(255,255,255,.45); }
+.footer-social { display:flex; gap:12px; margin-top:32px; }
+.footer-social-link {
+  width:36px; height:36px; border:1px solid rgba(255,255,255,.15);
+  display:flex; align-items:center; justify-content:center;
+  color:#fff; transition:background .2s;
+}
+.footer-social-link:hover { background:rgba(255,255,255,.1); }
+.footer-col-title {
+  font-size:10px; letter-spacing:.2em; text-transform:uppercase;
+  font-weight:500; color:#fff; margin-bottom:24px;
+}
+.footer-links { display:flex; flex-direction:column; gap:12px; }
+.footer-link {
+  font-size:13px; font-weight:300; color:rgba(255,255,255,.45);
+  transition:color .2s; text-align:left;
+}
+.footer-link:hover { color:#fff; }
+.footer-contacts { display:flex; flex-direction:column; gap:16px; }
+.footer-contact-row { display:flex; align-items:flex-start; gap:12px; }
+.footer-contact-row svg { color:#888; margin-top:2px; flex-shrink:0; }
+.footer-contact-text { font-size:13px; font-weight:300; color:rgba(255,255,255,.45); line-height:1.7; }
+.footer-contact-text a { color:rgba(255,255,255,.45); transition:color .2s; }
+.footer-contact-text a:hover { color:#fff; }
+.footer-hours { display:flex; flex-direction:column; gap:8px; }
+.footer-hour-row { display:flex; justify-content:space-between; gap:16px; }
+.footer-hour-day { font-size:12px; font-weight:300; color:rgba(255,255,255,.4); }
+.footer-hour-time { font-size:12px; font-weight:400; color:rgba(255,255,255,.7); }
+.footer-hour-time.closed { color:rgba(255,255,255,.25); }
+.footer-bottom {
+  display:flex; flex-direction:column; align-items:center; justify-content:space-between;
+  gap:16px; margin-top:64px; padding-top:32px;
+  border-top:1px solid rgba(255,255,255,.08);
+}
+@media(min-width:640px){ .footer-bottom { flex-direction:row; } }
+.footer-copy { font-size:12px; font-weight:300; color:rgba(255,255,255,.25); }
+.footer-status { display:flex; align-items:center; gap:8px; }
+.footer-dot { width:6px; height:6px; border-radius:50%; background:#4CAF50; }
+.footer-status-text { font-size:12px; font-weight:300; color:rgba(255,255,255,.35); }
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════ NAVBAR ═══════════════════ -->
+<nav id="navbar">
+  <div class="nav-inner">
+    <button class="nav-logo" onclick="scrollToTop()">
+      <div class="nav-logo-icon">
+        <i data-lucide="scissors" style="width:15px;height:15px"></i>
+      </div>
+      <span class="nav-logo-text">Coiffeur Ziyad</span>
+    </button>
+    <div class="nav-links">
+      <button class="nav-link" onclick="scrollTo('#about')">Über uns</button>
+      <button class="nav-link" onclick="scrollTo('#pricing')">Preise</button>
+      <button class="nav-link" onclick="scrollTo('#gallery')">Galerie</button>
+      <button class="nav-link" onclick="scrollTo('#reviews')">Bewertungen</button>
+      <button class="nav-link" onclick="scrollTo('#booking')">Termin</button>
+      <button class="nav-cta" onclick="scrollTo('#booking')">Jetzt buchen</button>
+    </div>
+    <button class="nav-hamburger" id="hamburger" onclick="toggleMenu()" aria-label="Menü">
+      <i data-lucide="menu" style="width:22px;height:22px"></i>
+    </button>
+  </div>
+</nav>
+
+<!-- ═══════════════════ MOBILE MENU ═══════════════════ -->
+<div id="mobile-menu">
+  <div class="mobile-menu-links">
+    <button class="mobile-menu-link" onclick="scrollTo('#about')">Über uns</button>
+    <button class="mobile-menu-link" onclick="scrollTo('#pricing')">Preise</button>
+    <button class="mobile-menu-link" onclick="scrollTo('#gallery')">Galerie</button>
+    <button class="mobile-menu-link" onclick="scrollTo('#reviews')">Bewertungen</button>
+    <button class="mobile-menu-link" onclick="scrollTo('#booking')">Termin</button>
+    <button class="mobile-cta" onclick="scrollTo('#booking')">Jetzt buchen</button>
+  </div>
+</div>
+
+<!-- ═══════════════════ HERO ═══════════════════ -->
+<section id="hero">
+  <div class="hero-bg">
+    <img src="https://images.unsplash.com/photo-1759134198561-e2041049419c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxsdXh1cnklMjBiYXJiZXIlMjBzaG9wJTIwaW50ZXJpb3IlMjBtb2Rlcm58ZW58MXx8fHwxNzczMTY0Mjg0fDA&ixlib=rb-4.1.0&q=80&w=1080" alt="Coiffeur Ziyad Salon" />
+    <div class="hero-overlay"></div>
+    <div class="hero-grain"></div>
+  </div>
+
+  <!-- Rating badge -->
+  <div class="hero-rating">
+    <i data-lucide="star" style="width:13px;height:13px;fill:#F5C842;color:#F5C842"></i>
+    <span class="hero-rating-text">4.8 / 5 · 182 Bewertungen</span>
+  </div>
+
+  <div class="hero-content">
+    <p class="hero-location">Adliswil, Schweiz — Seit 2010</p>
+    <div class="hero-h1-wrap">
+      <h1 class="hero-title-1">Coiffeur</h1>
+    </div>
+    <div class="hero-h1-wrap">
+      <h1 class="hero-title-2">Ziyad</h1>
+    </div>
+    <div class="hero-sub-row">
+      <p class="hero-sub">Erstklassige Haarschnitte & Bartpflege in Adliswil. Ihr Wohlbefinden ist unser Handwerk.</p>
+      <div class="hero-btns">
+        <button class="btn-primary" onclick="scrollTo('#booking')">Termin buchen</button>
+        <button class="btn-secondary" onclick="scrollTo('#about')">Mehr erfahren</button>
+      </div>
+    </div>
+  </div>
+
+  <button class="hero-scroll" onclick="scrollTo('#about')">
+    <span>Scrollen</span>
+    <i data-lucide="chevron-down" style="width:18px;height:18px"></i>
+  </button>
+</section>
+
+<!-- ═══════════════════ ABOUT ═══════════════════ -->
+<section id="about">
+  <!-- Stats Bar -->
+  <div class="stats-bar">
+    <div class="stats-inner">
+      <div class="stat anim-fadeUp">
+        <div class="stat-num">10+</div>
+        <div class="stat-label">Jahre Erfahrung</div>
+      </div>
+      <div class="stat anim-fadeUp d2">
+        <div class="stat-num">182</div>
+        <div class="stat-label">Google Bewertungen</div>
+      </div>
+      <div class="stat anim-fadeUp d3">
+        <div class="stat-num">4.8</div>
+        <div class="stat-label">Sterne Bewertung</div>
+      </div>
+      <div class="stat anim-fadeUp d4">
+        <div class="stat-num">∞</div>
+        <div class="stat-label">Leidenschaft</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main content -->
+  <div class="about-main">
+    <div class="anim-fadeLeft">
+      <p class="section-label">Über uns</p>
+      <h2 class="section-title">Wo Stil auf <em>Handwerk</em> trifft</h2>
+      <p style="color:#555;line-height:1.9;font-weight:300;font-size:15px;margin-top:32px;margin-bottom:24px;">
+        Bei Coiffeur Ziyad in Adliswil stehen Sie im Mittelpunkt. Mit über 10 Jahren Erfahrung bieten wir Ihnen nicht nur einen Haarschnitt – sondern ein Erlebnis, das Sie wohlfühlen lässt.
+      </p>
+      <p style="color:#555;line-height:1.9;font-weight:300;font-size:15px;">
+        Unser Team aus professionellen Stylisten verbindet klassische Techniken mit modernen Trends. Ob Herrenschnitt, Bartpflege oder komplettes Styling – wir setzen Ihre Vorstellungen mit Präzision und Leidenschaft um.
+      </p>
+      <div class="about-address">
+        <span class="divider"></span>
+        <span>Poststrasse 7, 8134 Adliswil</span>
+      </div>
+    </div>
+    <div class="about-imgs anim-fadeRight d2">
+      <img class="about-img-main" src="https://images.unsplash.com/photo-1604355240616-5e907f42b431?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxiYXJiZXIlMjBoYWlyY3V0JTIwc3R5bGlzaCUyMG1hbnxlbnwxfHx8fDE3NzMyMTg4OTV8MA&ixlib=rb-4.1.0&q=80&w=1080" alt="Haarschnitt" />
+      <img class="about-img-tools" src="https://images.unsplash.com/photo-1625038032200-648fbcd800d0?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxiYXJiZXIlMjBzY2lzc29ycyUyMGNvbWIlMjB0b29scyUyMGNsb3NlJTIwdXB8ZW58MXx8fHwxNzczMjE4ODk2fDA&ixlib=rb-4.1.0&q=80&w=1080" alt="Tools" />
+      <div class="about-accent"></div>
+    </div>
+  </div>
+
+  <!-- Services -->
+  <div class="services-row">
+    <div class="services-inner">
+      <p class="section-label" style="text-align:center">Was wir anbieten</p>
+      <div class="services-grid">
+        <div class="service-item anim-fadeUp d2">
+          <div class="service-icon"><i data-lucide="scissors" style="width:22px;height:22px"></i></div>
+          <h3 class="service-title">Haarschnitt</h3>
+          <p class="service-desc">Klassisch, modern oder kreativ – wir schneiden nach Ihren Wünschen mit höchster Präzision.</p>
+        </div>
+        <div class="service-item anim-fadeUp d3">
+          <div class="service-icon"><i data-lucide="feather" style="width:22px;height:22px"></i></div>
+          <h3 class="service-title">Bartpflege</h3>
+          <p class="service-desc">Von der klassischen Rasur bis zum präzisen Bart-Trimmen – gepflegt und stilvoll.</p>
+        </div>
+        <div class="service-item anim-fadeUp d4">
+          <div class="service-icon"><i data-lucide="droplets" style="width:22px;height:22px"></i></div>
+          <h3 class="service-title">Waschen & Föhnen</h3>
+          <p class="service-desc">Verwöhnen Sie sich mit einer professionellen Haarpflege und einem perfekten Finish.</p>
+        </div>
+        <div class="service-item anim-fadeUp d5">
+          <div class="service-icon"><i data-lucide="sparkles" style="width:22px;height:22px"></i></div>
+          <h3 class="service-title">Komplettes Styling</h3>
+          <p class="service-desc">Das komplette Paket für besondere Anlässe oder einfach für jeden Tag.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════ PRICING ═══════════════════ -->
+<section id="pricing">
+  <div class="pricing-inner">
+    <div class="pricing-header">
+      <div class="anim-fadeUp">
+        <p class="section-label">Unsere Preise</p>
+        <h2 class="section-title">Transparent & <em>fair</em></h2>
+      </div>
+      <p class="section-desc anim-fadeIn d3" style="max-width:360px">
+        Alle Preise inkl. MwSt. Keine versteckten Kosten – nur erstklassige Qualität.
+      </p>
+    </div>
+
+    <div class="pricing-grid">
+      <!-- Herren -->
+      <div class="anim-fadeUp d1">
+        <div class="pricing-cat-label">
+          <div class="pricing-cat-line"></div>
+          <span class="pricing-cat-text">Herren</span>
+        </div>
+        <div>
+          <div class="pricing-item">
+            <div>
+              <div class="pricing-item-name">Herrenschnitt</div>
+              <div class="pricing-item-desc">Klassischer Haarschnitt inkl. Styling</div>
+            </div>
+            <span class="pricing-item-price">CHF 35</span>
+          </div>
+          <div class="pricing-item">
+            <div>
+              <div class="pricing-item-name">Fade & Undercut</div>
+              <div class="pricing-item-desc">Moderner Schnitt mit präzisem Übergang</div>
+            </div>
+            <span class="pricing-item-price">CHF 40</span>
+          </div>
+          <div class="pricing-item">
+            <div>
+              <div class="pricing-item-name">Kinderschnitt (bis 12)</div>
+              <div class="pricing-item-desc">Liebevoller Schnitt für die Kleinen</div>
+            </div>
+            <span class="pricing-item-price">CHF 25</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bart -->
+      <div class="anim-fadeUp d2">
+        <div class="pricing-cat-label">
+          <div class="pricing-cat-line"></div>
+          <span class="pricing-cat-text">Bart & Rasur</span>
+        </div>
+        <div>
+          <div class="pricing-item">
+            <div>
+              <div class="pricing-item-name">Bart trimmen</div>
+              <div class="pricing-item-desc">Präzises Trimmen & Konturen</div>
+            </div>
+            <span class="pricing-item-price">CHF 20</span>
+          </div>
+          <div class="pricing-item">
+            <div>
+              <div class="pricing-item-name">Klassische Rasur</div>
+              <div class="pricing-item-desc">Traditionelle Nassrasur mit Messer</div>
+            </div>
+            <span class="pricing-item-price">CHF 30</span>
+          </div>
+          <div class="pricing-item">
+            <div>
+              <div class="pricing-item-name">Bart + Schnitt Kombi</div>
+              <div class="pricing-item-desc">Das komplette Paket</div>
+            </div>
+            <span class="pricing-item-price">CHF 50</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Pflege -->
+      <div class="anim-fadeUp d3">
+        <div class="pricing-cat-label">
+          <div class="pricing-cat-line"></div>
+          <span class="pricing-cat-text">Pflege & Styling</span>
+        </div>
+        <div>
+          <div class="pricing-item">
+            <div>
+              <div class="pricing-item-name">Waschen & Föhnen</div>
+              <div class="pricing-item-desc">Professionelle Haarpflege</div>
+            </div>
+            <span class="pricing-item-price">CHF 35</span>
+          </div>
+          <div class="pricing-item">
+            <div>
+              <div class="pricing-item-name">Haarkur</div>
+              <div class="pricing-item-desc">Intensive Pflege für gesundes Haar</div>
+            </div>
+            <span class="pricing-item-price">CHF 25</span>
+          </div>
+          <div class="pricing-item">
+            <div>
+              <div class="pricing-item-name">Komplettes Styling</div>
+              <div class="pricing-item-desc">Waschen, Schneiden, Föhnen & Stylen</div>
+            </div>
+            <span class="pricing-item-price">CHF 65</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="pricing-footer anim-fadeIn d4">
+      <div class="pricing-check">
+        <i data-lucide="check" style="width:14px;height:14px;color:#888"></i>
+        <span>Kein Aufschlag für Termine</span>
+      </div>
+      <div class="pricing-check">
+        <i data-lucide="check" style="width:14px;height:14px;color:#888"></i>
+        <span>Qualitätsprodukte inklusive</span>
+      </div>
+      <div class="pricing-check">
+        <i data-lucide="check" style="width:14px;height:14px;color:#888"></i>
+        <span>Flexible Öffnungszeiten</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════ GALLERY ═══════════════════ -->
+<section id="gallery">
+  <div class="gallery-inner">
+    <div class="gallery-header">
+      <div class="anim-fadeUp">
+        <p class="section-label">Einblicke</p>
+        <h2 class="section-title">Unsere <em>Galerie</em></h2>
+      </div>
+      <p class="section-desc anim-fadeIn d3" style="max-width:280px">
+        Entdecken Sie unsere Arbeit – Handwerk, das man sehen muss.
+      </p>
+    </div>
+
+    <div class="gallery-grid">
+      <div class="gallery-item row-span-2 anim-fadeUp d1">
+        <img src="https://images.unsplash.com/photo-1759134198561-e2041049419c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxsdXh1cnklMjBiYXJiZXIlMjBzaG9wJTIwaW50ZXJpb3IlMjBtb2Rlcm58ZW58MXx8fHwxNzczMTY0Mjg0fDA&ixlib=rb-4.1.0&q=80&w=1080" alt="Unser Salon" />
+        <div class="gallery-overlay"><span class="gallery-label">Unser Salon</span></div>
+      </div>
+      <div class="gallery-item anim-fadeUp d2">
+        <img src="https://images.unsplash.com/photo-1514336937476-a5b961020a5c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtZW4lMjBoYWlyc3R5bGUlMjBmYWRlJTIwY3V0fGVufDF8fHx8MTc3MzIxODg5Nnww&ixlib=rb-4.1.0&q=80&w=1080" alt="Fade Cut" />
+        <div class="gallery-overlay"><span class="gallery-label">Fade Cut</span></div>
+      </div>
+      <div class="gallery-item anim-fadeUp d3">
+        <img src="https://images.unsplash.com/photo-1769034260387-39fa07f0c0fa?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxiYXJiZXIlMjBzaG9wJTIwbWlycm9yJTIwY2hhaXIlMjB2aW50YWdlfGVufDF8fHx8MTc3MzIxODg5N3ww&ixlib=rb-4.1.0&q=80&w=1080" alt="Atmosphäre" />
+        <div class="gallery-overlay"><span class="gallery-label">Atmosphäre</span></div>
+      </div>
+      <div class="gallery-item col-span-2 anim-fadeUp d4">
+        <img src="https://images.unsplash.com/photo-1704175970213-3d894acf04f9?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxiYXJiZXIlMjBzdHJhaWdodCUyMHJhem9yJTIwc2hhdmUlMjBjbG9zZSUyMHVwfGVufDF8fHx8MTc3MzIxODg5OXww&ixlib=rb-4.1.0&q=80&w=1080" alt="Präzisionsrasur" />
+        <div class="gallery-overlay"><span class="gallery-label">Präzisionsrasur</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════ REVIEWS ═══════════════════ -->
+<section id="reviews">
+  <div class="reviews-inner">
+    <div class="reviews-header">
+      <div class="anim-fadeUp">
+        <p class="section-label">Kundenstimmen</p>
+        <h2 class="section-title">Was unsere Kunden <em>sagen</em></h2>
+      </div>
+      <div class="reviews-summary anim-fadeIn d3">
+        <div>
+          <div class="reviews-score">4.8</div>
+          <div class="stars">
+            <i data-lucide="star" class="star-icon" style="width:13px;height:13px;fill:#F5C842"></i>
+            <i data-lucide="star" class="star-icon" style="width:13px;height:13px;fill:#F5C842"></i>
+            <i data-lucide="star" class="star-icon" style="width:13px;height:13px;fill:#F5C842"></i>
+            <i data-lucide="star" class="star-icon" style="width:13px;height:13px;fill:#F5C842"></i>
+            <i data-lucide="star" class="star-icon" style="width:13px;height:13px;fill:#F5C842"></i>
+          </div>
+          <div class="reviews-count">182 Google Bewertungen</div>
+        </div>
+        <div class="reviews-divider"></div>
+        <div class="reviews-verified">Google Verified</div>
+      </div>
+    </div>
+
+    <div class="reviews-grid">
+      <div class="review-card anim-fadeUp d1">
+        <div class="stars">
+          <i data-lucide="star" class="star-icon" style="width:13px;height:13px;fill:#F5C842"></i>
+          <i data-lucide="star" class="star-icon" style="width:13px;height:13px;fill:#F5C842"></i>
+          <i data-lucide="star" class="star-icon" style="width:13px;height:13px;fill:#F5C842"></i>
+          <i data-lucide="star" class="star-icon" style="width:13px;height:13px;fill:#F5C842"></i>
+          <i data-lucide="star" class="star-icon" style="width:13px;height:13px;fill:#F5C842"></i>
+        </div>
+        <p class="review-text">„Wir gehen regelmäßig zu Coiffeur Ziyad – und sind jedes Mal sehr zufrieden! Das Team ist professionell, freundlich und versteht genau, was man möchte. Absolute Empfehlung!"</p>
+        <div class="review-author">
+          <div class="review-avatar">PM</div>
+          <div>
+            <div class="review-name">Patrick Mueller</div>
+            <div class="review-date">vor 3 Wochen · Google</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="review-card anim-fadeUp d2">
+        <div class="stars">
+          <i data-lucide="star" class="star-icon" style="width:13px;height:13px;fill:#F5C842"></i>
+          <i data-lucide="star" class="star-icon" style="width:13px;height:13px;fill:#F5C842"></i>
+          <i data-lucide="star" class="star-icon" style="width:13px;height:13px;fill:#F5C842"></i>
+          <i data-lucide="star" class="star-icon" style="width:13px;height:13px;fill:#F5C842"></i>
+          <i data-lucide="star" class="star-icon" style="width:13px;height:13px;fill:#F5C842"></i>
+        </div>
+        <p class="review-text">„Super Service, gute Stimmung, guter Kaffee. Alles stimmt. Preise auch. Werde definitiv wiederkommen. Dr. Eckert"</p>
+        <div class="review-author">
+          <div class="review-avatar">WE</div>
+          <div>
+            <div class="review-name">Wolfgang Eckert</div>
+            <div class="review-date">vor 2 Monaten · Google</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="review-card anim-fadeUp d3">
+        <div class="stars">
+          <i data-lucide="star" class="star-icon" style="width:13px;height:13px;fill:#F5C842"></i>
+          <i data-lucide="star" class="star-icon" style="width:13px;height:13px;fill:#F5C842"></i>
+          <i data-lucide="star" class="star-icon" style="width:13px;height:13px;fill:#F5C842"></i>
+          <i data-lucide="star" class="star-icon" style="width:13px;height:13px;fill:#F5C842"></i>
+          <i data-lucide="star" class="star-icon" style="width:13px;height:13px;fill:#F5C842"></i>
+        </div>
+        <p class="review-text">„Ich bin immer wieder da und echt begeistert. Es gibt viele Barbershops und Coiffeure in Adliswil, aber außer Ziyad hat mich keiner nachhaltig begeistert. Top Qualität, top Service!"</p>
+        <div class="review-author">
+          <div class="review-avatar">TM</div>
+          <div>
+            <div class="review-name">Toby Merkli</div>
+            <div class="review-date">vor 6 Monaten · Google</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="reviews-cta anim-fadeIn d4">
+      <a class="btn-outline" href="https://www.google.com/maps/search/Coiffeur+Ziyad+Adliswil" target="_blank" rel="noopener noreferrer">
+        Alle Bewertungen ansehen
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════ ATMOSPHERE ═══════════════════ -->
+<section id="atmosphere">
+  <div class="atm-wrap">
+    <img class="atm-img" src="https://images.unsplash.com/photo-1759134248487-e8baaf31e33e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxoYWlyJTIwc2Fsb24lMjBhdG1vc3BoZXJlJTIwZWxlZ2FudHxlbnwxfHx8fDE3NzMyMTg4OTV8MA&ixlib=rb-4.1.0&q=80&w=1080" alt="Salon Atmosphäre" />
+    <div class="atm-overlay"></div>
+    <div class="atm-content">
+      <div class="atm-inner anim-fadeLeft">
+        <p class="section-label" style="color:#888">Das Erlebnis</p>
+        <h2 class="section-title atm-title" style="font-size:clamp(28px,5vw,52px)">
+          Mehr als nur ein <em>Haarschnitt</em>
+        </h2>
+        <p class="atm-text">
+          Bei uns erwartet Sie eine entspannte Atmosphäre, ein freundliches Team und das Versprechen, dass Sie unseren Stuhl mit einem Lächeln verlassen. Guter Kaffee inklusive.
+        </p>
+        <div class="atm-info">
+          <div class="atm-info-row">
+            <i data-lucide="clock" style="width:14px;height:14px"></i>
+            <span>Mo–Sa: 08:30–20:00 · Geöffnet bis 20:00 Uhr</span>
+          </div>
+          <div class="atm-info-row">
+            <i data-lucide="map-pin" style="width:14px;height:14px"></i>
+            <span>Poststrasse 7, 8134 Adliswil</span>
+          </div>
+          <div class="atm-info-row">
+            <i data-lucide="phone" style="width:14px;height:14px"></i>
+            <span>+41 44 555 88 06</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════ BOOKING ═══════════════════ -->
+<section id="booking">
+  <div class="booking-inner">
+    <div class="booking-header anim-fadeUp">
+      <p class="section-label">Online buchen</p>
+      <h2 class="section-title">Ihren <em>Termin</em> buchen</h2>
+      <p>Füllen Sie das Formular aus und wir melden uns bei Ihnen zur Bestätigung. Alternativ rufen Sie uns an: +41 44 555 88 06</p>
+    </div>
+
+    <!-- Success state -->
+    <div class="booking-success" id="booking-success">
+      <div class="success-icon">
+        <i data-lucide="check-circle" style="width:60px;height:60px"></i>
+      </div>
+      <h3 class="success-title">Anfrage erhalten!</h3>
+      <p class="success-text">Vielen Dank! Wir melden uns in Kürze bei Ihnen zur Terminbestätigung.</p>
+      <button class="btn-outline" style="margin-top:32px" onclick="resetBooking()">Weiteren Termin buchen</button>
+    </div>
+
+    <!-- Form -->
+    <div class="booking-form anim-fadeUp d2" id="booking-form-wrap">
+      <div class="form-row">
+        <div>
+          <label class="form-label" for="name">Name *</label>
+          <input class="form-input" id="name" type="text" placeholder="Ihr vollständiger Name" />
+          <div class="form-error" id="err-name" style="display:none">Name erforderlich</div>
+        </div>
+        <div>
+          <label class="form-label" for="phone">Telefon *</label>
+          <input class="form-input" id="phone" type="tel" placeholder="+41 79 000 00 00" />
+          <div class="form-error" id="err-phone" style="display:none">Telefon erforderlich</div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="email">E-Mail</label>
+        <input class="form-input" id="email" type="email" placeholder="ihre@email.com" />
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="service">Service *</label>
+        <select class="form-select" id="service">
+          <option value="">Service auswählen...</option>
+          <option>Herrenschnitt</option>
+          <option>Fade & Undercut</option>
+          <option>Kinderschnitt</option>
+          <option>Bart trimmen</option>
+          <option>Klassische Rasur</option>
+          <option>Bart + Schnitt Kombi</option>
+          <option>Waschen & Föhnen</option>
+          <option>Komplettes Styling</option>
+        </select>
+        <div class="form-error" id="err-service" style="display:none">Bitte wählen Sie einen Service</div>
+      </div>
+
+      <div class="form-row">
+        <div>
+          <label class="form-label" for="date">Datum *</label>
+          <input class="form-input" id="date" type="date" />
+          <div class="form-error" id="err-date" style="display:none">Bitte wählen Sie ein Datum</div>
+        </div>
+        <div>
+          <label class="form-label" for="time">Uhrzeit *</label>
+          <select class="form-select" id="time">
+            <option value="">Uhrzeit wählen...</option>
+            <option>08:30</option><option>09:00</option><option>09:30</option><option>10:00</option>
+            <option>10:30</option><option>11:00</option><option>11:30</option><option>12:00</option>
+            <option>13:00</option><option>13:30</option><option>14:00</option><option>14:30</option>
+            <option>15:00</option><option>15:30</option><option>16:00</option><option>16:30</option>
+            <option>17:00</option><option>17:30</option><option>18:00</option><option>18:30</option>
+            <option>19:00</option><option>19:30</option>
+          </select>
+          <div class="form-error" id="err-time" style="display:none">Bitte wählen Sie eine Uhrzeit</div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="message">Nachricht (optional)</label>
+        <textarea class="form-textarea" id="message" placeholder="Besondere Wünsche oder Anmerkungen..." rows="3"></textarea>
+      </div>
+
+      <div class="form-footer">
+        <button class="btn-submit" onclick="submitBooking()">Termin anfragen</button>
+        <span class="form-hint">Wir antworten innerhalb von 24h.</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════ MAP ═══════════════════ -->
+<section id="map">
+  <iframe
+    title="Coiffeur Ziyad Standort"
+    src="https://maps.google.com/maps?q=Poststrasse+7,+8134+Adliswil,+Schweiz&output=embed&z=16&hl=de"
+    allowfullscreen
+    loading="lazy"
+    referrerpolicy="no-referrer-when-downgrade">
+  </iframe>
+</section>
+
+<!-- ═══════════════════ FOOTER ═══════════════════ -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-grid">
+      <!-- Brand -->
+      <div>
+        <div class="footer-brand-logo">
+          <div class="footer-logo-icon">
+            <i data-lucide="scissors" style="width:15px;height:15px"></i>
+          </div>
+          <span class="footer-logo-text">Coiffeur Ziyad</span>
+        </div>
+        <p class="footer-desc">Ihr Coiffeur des Vertrauens in Adliswil. Erstklassige Qualität, herzliche Atmosphäre.</p>
+        <div class="footer-social">
+          <a class="footer-social-link" href="https://www.instagram.com" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+            <i data-lucide="instagram" style="width:15px;height:15px"></i>
+          </a>
+        </div>
+      </div>
+
+      <!-- Navigation -->
+      <div>
+        <h4 class="footer-col-title">Navigation</h4>
+        <ul class="footer-links">
+          <li><button class="footer-link" onclick="scrollTo('#about')">Über uns</button></li>
+          <li><button class="footer-link" onclick="scrollTo('#pricing')">Preise</button></li>
+          <li><button class="footer-link" onclick="scrollTo('#gallery')">Galerie</button></li>
+          <li><button class="footer-link" onclick="scrollTo('#reviews')">Bewertungen</button></li>
+          <li><button class="footer-link" onclick="scrollTo('#booking')">Termin buchen</button></li>
+        </ul>
+      </div>
+
+      <!-- Contact -->
+      <div>
+        <h4 class="footer-col-title">Kontakt</h4>
+        <div class="footer-contacts">
+          <div class="footer-contact-row">
+            <i data-lucide="map-pin" style="width:14px;height:14px"></i>
+            <div class="footer-contact-text">Poststrasse 7<br>8134 Adliswil, Schweiz</div>
+          </div>
+          <div class="footer-contact-row">
+            <i data-lucide="phone" style="width:14px;height:14px"></i>
+            <div class="footer-contact-text"><a href="tel:+41445558806">+41 44 555 88 06</a></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Hours -->
+      <div>
+        <h4 class="footer-col-title">Öffnungszeiten</h4>
+        <div class="footer-hours">
+          <div class="footer-hour-row"><span class="footer-hour-day">Montag</span><span class="footer-hour-time">08:30–19:00</span></div>
+          <div class="footer-hour-row"><span class="footer-hour-day">Dienstag</span><span class="footer-hour-time">08:30–19:00</span></div>
+          <div class="footer-hour-row"><span class="footer-hour-day">Mittwoch</span><span class="footer-hour-time">08:30–19:00</span></div>
+          <div class="footer-hour-row"><span class="footer-hour-day">Donnerstag</span><span class="footer-hour-time">08:30–19:00</span></div>
+          <div class="footer-hour-row"><span class="footer-hour-day">Freitag</span><span class="footer-hour-time">08:30–20:00</span></div>
+          <div class="footer-hour-row"><span class="footer-hour-day">Samstag</span><span class="footer-hour-time">08:00–18:00</span></div>
+          <div class="footer-hour-row"><span class="footer-hour-day">Sonntag</span><span class="footer-hour-time closed">Geschlossen</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <p class="footer-copy">© 2026 Coiffeur Ziyad – Adliswil. Alle Rechte vorbehalten.</p>
+      <div class="footer-status">
+        <div class="footer-dot"></div>
+        <span class="footer-status-text">Heute geöffnet bis 20:00</span>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+// ─── Init Lucide Icons ───
+lucide.createIcons();
+
+// ─── Navbar scroll ───
+const navbar = document.getElementById('navbar');
+window.addEventListener('scroll', () => {
+  navbar.classList.toggle('scrolled', window.scrollY > 50);
+});
+
+// ─── Scroll helper ───
+function scrollTo(selector) {
+  const el = document.querySelector(selector);
+  if (el) el.scrollIntoView({ behavior: 'smooth' });
+  closeMenu();
+}
+function scrollToTop() {
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// ─── Mobile menu ───
+let menuOpen = false;
+function toggleMenu() {
+  menuOpen = !menuOpen;
+  document.getElementById('mobile-menu').classList.toggle('open', menuOpen);
+  const icon = document.querySelector('#hamburger i');
+  icon.setAttribute('data-lucide', menuOpen ? 'x' : 'menu');
+  lucide.createIcons();
+}
+function closeMenu() {
+  menuOpen = false;
+  document.getElementById('mobile-menu').classList.remove('open');
+  const icon = document.querySelector('#hamburger i');
+  icon.setAttribute('data-lucide', 'menu');
+  lucide.createIcons();
+}
+
+// ─── Scroll animations ───
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('in');
+      observer.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.08, rootMargin: '-60px' });
+
+document.querySelectorAll('.anim-fadeUp, .anim-fadeLeft, .anim-fadeRight, .anim-fadeIn').forEach(el => {
+  observer.observe(el);
+});
+
+// ─── Booking form ───
+document.getElementById('date').min = new Date().toISOString().split('T')[0];
+
+function showError(id, show) {
+  const err = document.getElementById('err-' + id);
+  const inp = document.getElementById(id);
+  if (err) err.style.display = show ? 'block' : 'none';
+  if (inp) inp.classList.toggle('error', show);
+}
+
+function submitBooking() {
+  const name    = document.getElementById('name').value.trim();
+  const phone   = document.getElementById('phone').value.trim();
+  const service = document.getElementById('service').value;
+  const date    = document.getElementById('date').value;
+  const time    = document.getElementById('time').value;
+
+  let valid = true;
+  showError('name',    !name);    if (!name)    valid = false;
+  showError('phone',   !phone);   if (!phone)   valid = false;
+  showError('service', !service); if (!service) valid = false;
+  showError('date',    !date);    if (!date)    valid = false;
+  showError('time',    !time);    if (!time)    valid = false;
+
+  if (!valid) return;
+
+  // Show success
+  document.getElementById('booking-form-wrap').style.display = 'none';
+  const success = document.getElementById('booking-success');
+  success.classList.add('show');
+  lucide.createIcons();
+}
+
+function resetBooking() {
+  ['name','phone','email','message'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.value = '';
+  });
+  ['service','time'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.selectedIndex = 0;
+  });
+  document.getElementById('date').value = '';
+  document.getElementById('booking-success').classList.remove('show');
+  document.getElementById('booking-form-wrap').style.display = 'block';
+}
+</script>
+</body>
+</html>
